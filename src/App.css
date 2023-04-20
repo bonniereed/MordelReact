@@ -1,38 +1,108 @@
-.App {
-  text-align: center;
+* {
+  color: #dedce4;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+      "Lucida Sans", Arial, sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  background-color: #012622;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.game-container {
+  height: 90vh;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
+}
+
+.title-container {
+  text-align: center;
+  width: 510px;
+  border-bottom: solid 1px #01413a;
+}
+
+.tile-container {
+  width: 330px;
+  margin-bottom: 30px;
+}
+
+.key-container {
+  width: 510px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.key-container button {
+  width: 40px;
+  height: 55px;
+  border-radius: 4px;
+  border: none;
+  background-color: #3a6a59;
+  margin: 4px;
+}
+
+.key-container button:nth-child(11) {
+  margin-left: 30px;
+}
+
+.key-container button:nth-child(20),
+.key-container button:nth-child(28) {
+  width: 68px;
+}
+
+.tile-container div {
+  display: flex;
+}
+
+.tile-container .tile {
+  width: 62px;
+  height: 62px;
+  border: 2px solid#01413A;
+  box-sizing: border-box;
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  margin: 2px;
 }
 
-.App-link {
-  color: #61dafb;
+.message-container {
+  height: 30px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.message-container p {
+  background-color: #dedce4;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 0;
+}
+
+.green-overlay {
+  background-color: #2f5233;
+  border: none !important;
+}
+
+.yellow-overlay {
+  background-color: #ecf87f;
+  border: none !important;
+}
+
+.grey-overlay {
+  background-color: #b9c8bc;
+  border: none !important;
+}
+.tile.flip {
+  animation: 0.5s linear flipping;
+}
+
+@keyframes flipping {
+  0% {
+      transform: rotateX(0deg);
   }
-  to {
-    transform: rotate(360deg);
+  50% {
+      transform: rotateX(90deg);
+  }
+  100% {
+      transform: rotateX(0deg);
   }
 }
