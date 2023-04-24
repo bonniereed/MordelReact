@@ -7,9 +7,10 @@ function App() {
   return (<>
     <div className="App">
       <div className="game-container">
+        <div class="message-container"></div>
           <Title/>
-          <GuessRows/>
-          <Keyboard/>
+          <div class="tile-display"><GuessRows/></div>
+          <div class="key-container"><Keyboard/></div>
           </div>
     </div>
     </>
