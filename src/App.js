@@ -12,7 +12,6 @@ function App() {
           <Keyboard className="key-container"/>
           </div>
     </div>
-    </div>
     </>
     
   );
