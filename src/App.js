@@ -6,12 +6,12 @@ import Keyboard from './components/Keyboard'
 function App() {
   return (<>
     <div className="App">
-      <div className="game-container">
-        <div class="message-container"></div>
-          <Title/>
-          <div class="tile-display"><GuessRows/></div>
-          <div class="key-container"><Keyboard/></div>
+    <div className="game-container">
+          <Title className="message-container"/>
+          <GuessRows className="tile-display"/>
+          <Keyboard className="key-container"/>
           </div>
+    </div>
     </div>
     </>
     
