@@ -1,10 +1,8 @@
 import { Component } from 'react';
-import GuessRows from './GuessRows';
-let wordle ="SUPER"
-let currentTile = 0;
-let isGameOver = false;
+import Helper from '../utils/Helper';
+const messageDisplay = document.querySelector(".message-container");
+let wordle = ""
 
-const messageDisplay = document.querySelector('.message-container')
 const keys = [
     "Q",
     "W",
@@ -36,34 +34,53 @@ const keys = [
     "ENTER",
 ];
 
+const flipTile = () => {
+    const rowTiles = document.querySelector(
+        "#guessRow-" + Helper.currentRow
+    ).childNodes;
+
+    rowTiles.forEach((tile) => {
+        Helper.guess.push({
+            letter: tile.getAttribute("data"),
+            color: "grey-overlay",
+        });
+    })};
+
+
+
+const showMessage = (message) => {
+    const messageElement = document.createElement("p");
+    messageElement.textContent = message;
+    messageDisplay.append(messageElement);
+    setTimeout(() => messageDisplay.removeChild(messageElement), 2000);
+};
 const addLetter = (letter) => {
-    if (currentTile < 5 && currentRow < 6) {
+    if (Helper.currentTile < 5 && Helper.currentRow < 6) {
         const tile = document.getElementById(
-            "guessRow-" + currentRow + "-tile-" + currentTile
+            "guessRow-" + Helper.currentRow + "-tile-" + Helper.currentTile
         );
         tile.textContent = letter;
-        GuessRows.guessRows[currentRow][currentTile] = letter;
+        Helper.guessRows[Helper.currentRow][Helper.currentTile] = letter;
         tile.setAttribute("data", letter);
-        currentTile++;
+        Helper.currentTile++;
     }
 };
 
 const deleteLetter = () => {
-    if (currentTile > 0) {
-        currentTile--;
+    if (Helper.currentTile > 0) {
+        Helper.currentTile--;
         const tile = document.getElementById(
-            "guessRow-" + currentRow + "-tile-" + currentTile
+            "guessRow-" + Helper.currentRow + "-tile-" + Helper.currentTile
         );
         tile.textContent = "";
-        GuessRows.guessRows[currentRow][currentTile] = "";
+        Helper.guessRows[Helper.currentRow][Helper.currentTile] = "";
         tile.setAttribute("data", "");
     }
 };
-
 const checkRow = () => {
-    const guess = GuessRows.guessRows[currentRow].join("");
-    if (currentTile > 4) {
-        fetch(`http://localhost:8000/check/?word=${guess}`)
+    const guess = Helper.guessRows[Helper.currentRow].join("");
+    if (Helper.currentTile > 4) {
+        fetch(`http://localhost:3001/check/?word=${guess}`)
             .then((response) => response.json())
             .then((json) => {
                 if (json === "Entry word not found") {
@@ -73,63 +90,41 @@ const checkRow = () => {
                     flipTile();
                     if (wordle === guess) {
                         showMessage("Magnificent!");
-                        isGameOver = true;
+                        Helper.isGameOver = true;
                         return;
                     } else {
-                        if (currentRow >= 5) {
-                            isGameOver = true;
+                        if (Helper.currentRow >= 5) {
+                            Helper.isGameOver = true;
                             showMessage("Game Over");
                             return;
                         }
-                        if (currentRow < 5) {
-                            currentRow++;
-                            currentTile = 0;
+                        if (Helper.currentRow < 5) {
+                            Helper.currentRow++;
+                            Helper.currentTile = 0;
                         }
                     }
                 }
             })
             .catch((err) => console.log(err));
     }
-};
-
-const flipTile = () => {
-    const rowTiles = document.querySelector(
-        "#guessRow-" + currentRow
-    ).childNodes;
-    let checkWordle = wordle;
-    const guess = [];
-
-    rowTiles.forEach((tile) => {
-        guess.push({
-            letter: tile.getAttribute("data"),
-            color: "grey-overlay",
-        });
-    });
-
-
-const showMessage = (message) => {
-    const messageElement = document.createElement("p");
-    messageElement.textContent = message;
-    messageDisplay.append(messageElement);
-    setTimeout(() => messageDisplay.removeChild(messageElement), 2000);
-};
-
+}
 
 const handleClick = (letter) => {
-    if (!isGameOver) {
+    if (!Helper.isGameOver) {
         if (letter === "«") {
-            deleteLetter();
+           deleteLetter();
             return;
         }
         if (letter === "ENTER") {
             checkRow();
             return;
         }
-        addLetter(letter);
+addLetter(letter);
     }
 };
+
 class Keyboard extends Component {
  render(){
-    return (<div class="key-container">{keys.map(function(name, index){return (<button key={index} onClick={handleClick}>{name}</button>)})}</div>)}}
+    return (<div className="key-container">{keys.map(function(name, index){return (<button key={index} onClick={handleClick}>{name}</button>)})}</div>)}}
 
  export default Keyboard   
